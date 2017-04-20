@@ -5,14 +5,20 @@ A [Joi](https://github.com/hapijs/joi) wrapper for [Micro](https://github.com/ze
 ## Examples
 
 ```
-validate(
-  Joi.object({
+const {send} = require('micro')
+const validation = require('micro-joi')
+
+const validator = validation(Joi.object({
     foo: Joi.number().required(),
     bar: Joi.number().required()
-  }))(async (req, res) => {
+}))
+
+async function handler (req, res) {
   const body = await json(req)
   send(res, 200, body)
-})
+}
+
+module.exports = validator(handler)
 ```
 
 Sending a `post` with a wrong body, e.g. ```{ foo: 42, bar: "fortytwo" }```, will return an error with a Joi validation message, status code 400.
@@ -20,14 +26,18 @@ Sending a `post` with a wrong body, e.g. ```{ foo: 42, bar: "fortytwo" }```, wil
 #### or with custom message
 
 ```
-validate(
-  Joi.object({
+const {send} = require('micro')
+const validation = require('micro-joi')
+
+const validator = validation(Joi.object({
     foo: Joi.number().required(),
     bar: Joi.number().required()
-  }), 'hei! send a correct body plz')(async (req, res) => {
+}), 'hei! send a correct body plz')
+
+async function handler (req, res) {
   const body = await json(req)
   send(res, 200, body)
-})
+}
 ```
 
 It will return an error with your custom message, status code 400.
