@@ -5,7 +5,7 @@ A [Joi](https://github.com/hapijs/joi) wrapper for [Micro](https://github.com/ze
 ## Examples
 
 ```
-const {send} = require('micro')
+const { json, send } = require('micro')
 const validation = require('micro-joi')
 
 const validator = validation(Joi.object({
@@ -26,7 +26,7 @@ Sending a `post` with a wrong body, e.g. ```{ foo: 42, bar: "fortytwo" }```, wil
 #### or with custom message
 
 ```
-const {send} = require('micro')
+const { json, send } = require('micro')
 const validation = require('micro-joi')
 
 const validator = validation(Joi.object({
