@@ -16,7 +16,7 @@ module.exports = exports = (schema, message) => fn => {
     const error = Joi.validate(body, schema).error
 
     if (error) {
-      send(res, 400, message || JSON.stringify(error.details))
+      send(res, 400, message || error.details)
       return
     }
 
