@@ -13,12 +13,14 @@ module.exports = exports = (schema, message) => fn => {
   return async (req, res) => {
     const body = await json(req)
 
-    const error = Joi.validate(body, schema).error
-
-    if (error) {
-      send(res, 400, message || error.details)
+    const result = Joi.validate(body, schema)
+    
+    if (result.error) {
+      send(res, 400, message || result.error.details)
       return
     }
+    
+    req.body = result.value
 
     return fn(req, res)
   }
