@@ -92,3 +92,38 @@ test('error: function required', async function() {
 
   expect(() => validate(schema)().toThrow('a function is required.'))
 })
+
+test('body has been converted to the correct types according to joi schema', async function() {
+  const schema = Joi.object({
+    foo: Joi.string(),
+    bar: Joi.number()
+  })
+
+  const fn = validate(schema)(async function(req, res) {
+    expect(req.body).toEqual({
+      foo: 'hey!',
+      bar: 42 // this is a number!
+    })
+    const body = await json(req)
+    send(res, 200, body)
+  })
+
+  const url = await getUrl(fn)
+  const res = await request({
+    method: 'POST',
+    uri: url,
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: {
+      foo: 'hey!',
+      bar: '42'
+    },
+    json: true
+  })
+
+  expect(res).toEqual({
+    foo: 'hey!',
+    bar: '42'
+  })
+})
