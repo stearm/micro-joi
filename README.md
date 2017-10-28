@@ -1,6 +1,20 @@
 [![Build Status](https://travis-ci.org/stearm/micro-joi.svg?branch=master)](https://travis-ci.org/stearm/micro-joi) [![npm](https://img.shields.io/npm/v/micro-joi.svg)](https://www.npmjs.com/package/micro-joi)
 # micro-joi
-A [Joi](https://github.com/hapijs/joi) wrapper for [Micro](https://github.com/zeit/micro)
+A [Joi](https://github.com/hapijs/joi) wrapper for [Micro](https://github.com/zeit/micro) to validate your request body and query parameters.
+
+It's possible to validate both body and query parameters, or only one of these.
+To validate both, use `body` and `query` key in the schema:
+```javascript
+Joi.object({
+    body: Joi.object({
+        ...
+    }),
+    query: Joi.object({
+        ...
+    })
+});
+```
+but you can validate only body or query. To keep api backward compatible, you can omit `body` and `query`: write the shape of your request body directly, look at the examples below.
 
 ## Examples
 
