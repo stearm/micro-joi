@@ -2,6 +2,7 @@ const Joi = require('joi');
 const listen = require('test-listen');
 const request = require('request-promise');
 const micro = require('micro');
+const url = require('url');
 const { json, send } = micro;
 
 const validate = require('../index');
@@ -120,6 +121,110 @@ test('error: query parameters invalid', async function() {
     await request({
       method: 'GET',
       uri: url
+    });
+  } catch (err) {
+    expect(err.statusCode).toEqual(400);
+  }
+});
+
+test('everything goes well, no validation errors with body and query parameters', async function() {
+  const schema = Joi.object({
+    body: Joi.object({
+      foo: Joi.string(),
+      bar: Joi.number()
+    }),
+    query: Joi.object({
+      p1: Joi.string(),
+      p2: Joi.string()
+    })
+  });
+
+  const fn = validate(schema)(async function(req, res) {
+    send(res, 200, 'Both body and query parameters valid!');
+  });
+
+  const url = (await getUrl(fn)) + '?p1=value1&p2=value2';
+  const res = await request({
+    method: 'POST',
+    uri: url,
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: {
+      foo: 'hey!',
+      bar: 42
+    },
+    json: true
+  });
+
+  expect(res).toEqual('Both body and query parameters valid!');
+});
+
+test('everything goes well, no validation errors in query parameters, body not validated', async function() {
+  const schema = Joi.object({
+    query: Joi.object({
+      p1: Joi.string(),
+      p2: Joi.string()
+    })
+  });
+
+  const fn = validate(schema)(async function(req, res) {
+    const body = await json(req);
+    send(res, 200, body);
+  });
+
+  const url = (await getUrl(fn)) + '?p1=value1&p2=value2';
+  const res = await request({
+    method: 'POST',
+    uri: url,
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: {
+      foo: 'hey!',
+      bar: 42,
+      baz: 'whatever you want'
+    },
+    json: true
+  });
+
+  expect(res).toEqual({
+    foo: 'hey!',
+    bar: 42,
+    baz: 'whatever you want'
+  });
+});
+
+test('error: valid body but invalid query parameters', async function() {
+  const schema = Joi.object({
+    body: Joi.object({
+      foo: Joi.string(),
+      bar: Joi.number()
+    }),
+    query: Joi.object({
+      p1: Joi.string(),
+      p2: Joi.string()
+    })
+  });
+
+  const fn = validate(schema)(async function(req, res) {
+    send(res, 200, 'Both body and query parameters valid!');
+  });
+
+  const url = (await getUrl(fn)) + '?p1=value1&p2=999999';
+
+  try {
+    await request({
+      method: 'POST',
+      uri: url,
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: {
+        foo: 'hey!',
+        bar: 42
+      },
+      json: true
     });
   } catch (err) {
     expect(err.statusCode).toEqual(400);

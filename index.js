@@ -16,17 +16,27 @@ module.exports = exports = (schema, message) => fn => {
     const querySchema = Joi.reach(schema, 'query');
     const bodySchema = Joi.reach(schema, 'body');
 
-    try {
-      const body = await json(req);
-      const result = Joi.validate(bodySchema ? bodySchema : body, schema);
+    // the only case where body is not validated is if there is only the query field in the schema
+    const body = await getJSONBody(req);
+    if (body) {
+      let result;
+      if (!querySchema) {
+        result = Joi.validate(body, bodySchema ? bodySchema : schema);
+      } else {
+        if (bodySchema) {
+          result = Joi.validate(body, bodySchema);
+        }
+      }
 
-      if (result.error) {
+      if (result && result.error) {
         send(res, 400, message || result.error.details);
         return;
       }
 
-      req.body = result.value;
-    } catch (err) {}
+      if (result) {
+        req.body = result.value;
+      }
+    }
 
     if (querySchema) {
       const result = Joi.validate(queryParameters, querySchema);
@@ -35,6 +45,15 @@ module.exports = exports = (schema, message) => fn => {
         return;
       }
     }
+
     return fn(req, res);
   };
+};
+
+const getJSONBody = async req => {
+  try {
+    return await json(req);
+  } catch (err) {
+    return null;
+  }
 };
