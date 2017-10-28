@@ -14,7 +14,7 @@ Joi.object({
     })
 });
 ```
-but you can validate only body or query. To keep api backward compatible, you can omit `body` and `query`: write the shape of your request body directly, look at the examples below.
+but you can validate only body or query. To keep api backward compatible, you can write the shape of your request body directly, look at the examples below.
 
 ## Examples
 
