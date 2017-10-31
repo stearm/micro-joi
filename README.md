@@ -14,7 +14,7 @@ Joi.object({
     })
 });
 ```
-but you can validate only body or query. To keep api backward compatible, you can write the shape of your request body directly, look at the examples below.
+To keep api backward compatible, you can write the shape of your request body directly, look at the examples below.
 
 ## Examples
 
@@ -35,7 +35,7 @@ async function handler (req, res) {
 module.exports = validator(handler)
 ```
 
-Sending a `post` with a wrong body, e.g. ```{ foo: 42, bar: "fortytwo" }```, will return an error with a Joi validation message, status code 400.
+Sending a `POST` with a wrong body, e.g. ```{ foo: 42, bar: "fortytwo" }```, will return an error with a Joi validation message, status code 400.
 
 #### or with custom message
 
