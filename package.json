@@ -1,6 +1,6 @@
 {
   "name": "micro-joi",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A Joi wrapper for zeit/micro",
   "author": "Stefano Armenes <stefano.armenes@gmail.com>",
   "main": "index.js",
