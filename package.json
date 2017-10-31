@@ -11,12 +11,9 @@
   },
   "lint-staged": {
     "*.js": [
-      "prettier --single-quote --no-semi --write",
+      "prettier --single-quote --write",
       "git add"
     ]
-  },
-  "dependencies": {
-    "joi": ">=10.4.1"
   },
   "repository": {
     "type": "git",
@@ -25,6 +22,7 @@
   "devDependencies": {
     "husky": "^0.13.3",
     "jest": "^19.0.2",
+    "joi": "10.4.1",
     "lint-staged": "^3.4.0",
     "micro": ">=5.0.0",
     "prettier": "^1.2.2",
@@ -32,6 +30,7 @@
     "test-listen": "^1.0.2"
   },
   "peerDependencies": {
-    "micro": ">=5.0.0"
+    "micro": ">=5.0.0",
+    "joi": "10.4.1"
   }
 }

@@ -1,6 +1,20 @@
 [![Build Status](https://travis-ci.org/stearm/micro-joi.svg?branch=master)](https://travis-ci.org/stearm/micro-joi) [![npm](https://img.shields.io/npm/v/micro-joi.svg)](https://www.npmjs.com/package/micro-joi)
 # micro-joi
-A [Joi](https://github.com/hapijs/joi) wrapper for [Micro](https://github.com/zeit/micro)
+A [Joi](https://github.com/hapijs/joi) wrapper for [Micro](https://github.com/zeit/micro) to validate your request body and query parameters.
+
+It's possible to validate both body and query parameters, or only one of these.
+To validate both, use `body` and `query` key in the schema:
+```javascript
+Joi.object({
+    body: Joi.object({
+        ...
+    }),
+    query: Joi.object({
+        ...
+    })
+});
+```
+To keep api backward compatible, you can write the shape of your request body directly, look at the examples below.
 
 ## Examples
 
@@ -21,7 +35,7 @@ async function handler (req, res) {
 module.exports = validator(handler)
 ```
 
-Sending a `post` with a wrong body, e.g. ```{ foo: 42, bar: "fortytwo" }```, will return an error with a Joi validation message, status code 400.
+Sending a `POST` with a wrong body, e.g. ```{ foo: 42, bar: "fortytwo" }```, will return an error with a Joi validation message, status code 400.
 
 #### or with custom message
 
