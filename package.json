@@ -4,6 +4,9 @@
   "description": "A Joi wrapper for zeit/micro",
   "author": "Stefano Armenes <stefano.armenes@gmail.com>",
   "main": "index.js",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "license": "MIT",
   "scripts": {
     "test": "jest",
