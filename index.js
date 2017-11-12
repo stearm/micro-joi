@@ -44,6 +44,7 @@ module.exports = exports = (schema, message) => fn => {
         send(res, 400, message || result.error.details);
         return;
       }
+      req.query = result.value;
     }
 
     return fn(req, res);
