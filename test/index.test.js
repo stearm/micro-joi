@@ -278,3 +278,24 @@ test('body has been converted to the correct types according to joi schema', asy
     bar: '42'
   });
 });
+
+test('query has been converted to the correct types according to joi schema', async function() {
+  const schema = Joi.object({
+    query: Joi.object({
+      foo: Joi.string().default('bar')
+    })
+  });
+
+  const fn = validate(schema)(async function(req, res) {
+    expect(req.query.foo).toEqual('bar');
+    send(res, 200, 'Good job!');
+  });
+
+  const url = await getUrl(fn);
+  const res = await request({
+    method: 'GET',
+    uri: url
+  });
+
+  expect(res).toEqual('Good job!');
+});
