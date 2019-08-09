@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const listen = require('test-listen');
 const request = require('request-promise');
 const micro = require('micro');

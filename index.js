@@ -1,5 +1,5 @@
 const { json, send } = require('micro');
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const url = require('url');
 
 module.exports = exports = (schema, message) => fn => {
