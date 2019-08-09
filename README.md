@@ -21,6 +21,7 @@ To keep api backward compatible, you can write the shape of your request body di
 ```javascript
 const { json, send } = require('micro')
 const validation = require('micro-joi')
+const Joi = require('@hapi/joi')
 
 const validator = validation(Joi.object({
     foo: Joi.number().required(),
@@ -42,6 +43,7 @@ Sending a `POST` with a wrong body, e.g. ```{ foo: 42, bar: "fortytwo" }```, wil
 ```javascript
 const { json, send } = require('micro')
 const validation = require('micro-joi')
+const Joi = require('@hapi/joi')
 
 const validator = validation(Joi.object({
     foo: Joi.number().required(),
