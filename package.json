@@ -5,12 +5,11 @@
   "author": "Stefano Armenes <stefano.armenes@gmail.com>",
   "main": "index.js",
   "engines": {
-    "node": ">=8.8.0"
+    "node": ">=8.12.0"
   },
   "license": "MIT",
   "scripts": {
-    "test": "jest",
-    "precommit": "lint-staged"
+    "test": "jest"
   },
   "lint-staged": {
     "*.js": [
@@ -35,5 +34,10 @@
   "peerDependencies": {
     "micro": "9.3.4",
     "joi": "15.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
