@@ -1,3 +1,5 @@
+# ⚠️ Deprecated ⚠️
+
 [![Build Status](https://travis-ci.org/stearm/micro-joi.svg?branch=master)](https://travis-ci.org/stearm/micro-joi) [![npm](https://img.shields.io/npm/v/micro-joi.svg)](https://www.npmjs.com/package/micro-joi)
 # micro-joi
 A [Joi](https://github.com/hapijs/joi) wrapper for [Micro](https://github.com/zeit/micro) to validate your request body and query parameters.
